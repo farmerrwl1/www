@@ -19,34 +19,32 @@ app.use(session({
   saveUninitialized: true,
 }));
 
-// Создание пользователя с логином admin, паролем admin и ролью admin
-async function createAdminUser() {
+const User = require('./models/User');
+
+// Функция для изменения роли пользователя с логином admin на admin
+async function updateAdminUserRole() {
   try {
-    // Проверяем, существует ли уже пользователь с логином admin
-    const existingUser = await User.findOne({ where: { username: 'admin' } });
-    if (existingUser) {
-      console.log('Пользователь с логином admin уже существует');
+    // Находим пользователя с логином admin
+    const adminUser = await User.findOne({ where: { username: 'admin' } });
+
+    // Проверяем, найден ли пользователь
+    if (!adminUser) {
+      console.log('Пользователь с логином admin не найден');
       return;
     }
 
-    // Хешируем пароль
-    const hashedPassword = await bcrypt.hash('admin', 10);
+    // Обновляем роль пользователя на admin
+    adminUser.role = 'admin';
+    await adminUser.save();
 
-    // Создаем пользователя
-    const adminUser = await User.create({
-      username: 'admin',
-      password: hashedPassword,
-      role: 'admin'
-    });
-
-    console.log('Пользователь с логином admin успешно создан');
+    console.log('Роль пользователя с логином admin успешно изменена на admin');
   } catch (error) {
-    console.error('Ошибка при создании пользователя:', error);
+    console.error('Ошибка при изменении роли пользователя:', error);
   }
 }
 
-// Вызываем функцию создания администратора
-createAdminUser();
+// Вызываем функцию для изменения роли пользователя
+updateAdminUserRole();
 
 
 // Обработка POST-запроса на вход
