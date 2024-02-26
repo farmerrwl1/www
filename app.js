@@ -19,6 +19,36 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+// Создание пользователя с логином admin, паролем admin и ролью admin
+async function createAdminUser() {
+  try {
+    // Проверяем, существует ли уже пользователь с логином admin
+    const existingUser = await User.findOne({ where: { username: 'admin' } });
+    if (existingUser) {
+      console.log('Пользователь с логином admin уже существует');
+      return;
+    }
+
+    // Хешируем пароль
+    const hashedPassword = await bcrypt.hash('admin', 10);
+
+    // Создаем пользователя
+    const adminUser = await User.create({
+      username: 'admin',
+      password: hashedPassword,
+      role: 'admin'
+    });
+
+    console.log('Пользователь с логином admin успешно создан');
+  } catch (error) {
+    console.error('Ошибка при создании пользователя:', error);
+  }
+}
+
+// Вызываем функцию создания администратора
+createAdminUser();
+
+
 // Обработка POST-запроса на вход
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
