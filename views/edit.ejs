@@ -1,0 +1,16 @@
+<!-- views/edit.ejs -->
+<%- include('header', { user: user }) %>
+<main>
+  <h2>Редактировать реку</h2>
+  <form action="/admin/<%= river.id %>/edit" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="text" name="name" placeholder="Название" value="<%= river.name %>" required>
+    <input type="number" name="length" placeholder="Длина" value="<%= river.length %>" required>
+    <button type="submit">Сохранить</button>
+  </form>
+  <form action="/">
+    <button type="submit">Отмена</button>
+  </form>
+</main>
+<%- include('footer') %>
+<link rel="stylesheet" href="/auth.css">

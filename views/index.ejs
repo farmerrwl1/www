@@ -1,0 +1,57 @@
+<!-- views/index.ejs -->
+<%- include('header') %>
+<main>  
+  <% if (user && user.role === 'admin') { %>
+    <form action="/admin/add">
+      <button type="submit" style="font-size: 30px; width: 70%;">Добавить реку</button>
+    </form>
+  <% } %>
+  <table>
+    <thead>
+      <tr>
+        <th>Название</th>
+        <th>Длина (км)</th>
+        <% if (user) { %>
+          <th class="actions">Действия</th>
+        <% } %>
+      </tr>
+    </thead>
+    <tbody>
+      <% rivers.forEach(river => { %>
+        <tr>
+          <td><%= river.name %></td>
+          <td><%= river.length %></td>
+          <% if (user) { %>
+          <td class="actions">
+              <% if (favoriteRivers && favoriteRivers.length >= 0) { %>
+                <% const isFavorite = favoriteRivers && favoriteRivers.some(favorite => favorite.riverId === river.id); %>
+                  <form action="<%= isFavorite ? '/favorites/remove' : '/favorites/add' %>" method="post">
+                    <div class="action">
+                      <input type="hidden" name="riverId" value="<%= river.id %>">
+                      <button type="submit" style="color: red;"><%= isFavorite ? '♥' : '♡' %></button>
+                      <span class="actiontext"><%= isFavorite ? 'Удалить из избранного' : 'Добавить в избранное' %></span>
+                    </div>
+                  </form>
+              <% } %>
+              <% if (user.role === 'admin') { %>
+                <form action="/admin/<%= river.id %>/edit" method="get">
+                  <div class="action">
+                    <button type="submit">&#9998;</button>
+                    <span class="actiontext">Редактировать</span>
+                  </div>
+                </form>
+                <form action="/admin/<%= river.id %>/delete" method="post">
+                  <div class="action">
+                    <button type="submit">&#10060;</button>
+                    <span class="actiontext">Удалить</span>
+                  </div>
+                </form>
+              <% } %>
+          </td>
+          <% } %>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</main>
+<%- include('footer') %>

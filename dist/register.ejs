@@ -1,0 +1,23 @@
+<!-- views/register.ejs -->
+<%- include('header', { user: user }) %>
+<% if (user) { %>
+  <script>window.location.href = "/"</script>
+<% } %>
+<main>
+  <form action="/register" method="post">
+    <div class="container">
+      <h1>Зарегистрироваться</h1>
+      <hr>
+      <label for="email"><b>Логин</b></label>
+      <input type="text" placeholder="Введите логин" name="username" required>
+      <label for="psw"><b>Пароль</b></label>
+      <input type="password" placeholder="Введите пароль" name="password" required>
+      <button type="submit" class="registerbtn">Зарегистрироваться</button>
+    </div>
+    <div class="container signin">
+      <a href="/login">Уже есть аккаунт?</a>
+    </div>
+  </form>
+</main>
+<%- include('footer') %>
+<link rel="stylesheet" href="auth.css">

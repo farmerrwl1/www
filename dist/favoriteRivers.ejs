@@ -1,0 +1,50 @@
+<%- include('header') %>
+<main>  
+  <% if (favoriteRivers.length > 0) { %>
+  <table>
+    <thead>
+      <tr>
+        <th>Название</th>
+        <th>Длина (км)</th>
+        <th class="actions">Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% favoriteRivers.forEach(item => { %>
+        <tr>
+          <td><%= item.river.name %></td>
+          <td><%= item.river.length %></td>
+          <td class="actions">
+            <form action="/favoritess/remove" method="post">
+              <div class="action">
+                <input type="hidden" name="riverId" value="<%= item.river.id %>">
+                <button type="submit" style="color: red;">♥</button>
+                <span class="actiontext">Удалить из избранного</span>
+              </div>
+            </form>
+            <% if (user.role === 'admin') { %>
+              <form action="/admin/<%= item.river.id %>/edit" method="get">
+                <div class="action">
+                  <button type="submit">&#9998;</button>
+                  <span class="actiontext">Редактировать</span>
+                </div>
+              </form>
+              <form action="/admin/<%= item.river.id %>/delete" method="post">
+                <div class="action">
+                  <button type="submit">&#10060;</button>
+                  <span class="actiontext">Удалить</span>
+                </div>
+              </form>
+            <% } %>
+        </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <% } else { %>
+    <script>
+      alert("Нет избранных рек");
+      window.location.href = "/";
+    </script>
+  <% } %>
+</main>   

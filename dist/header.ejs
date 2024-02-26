@@ -1,0 +1,42 @@
+<!-- views/header.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riverss</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <a href="/">Главная</a>
+      <div class="dropdown">
+        <button class="dropbtn">Области
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="#">В разработке</a>
+          <a href="#">В разработке</a>
+          <a href="#">В разработке</a>
+          <a href="#">В разработке</a>
+          <a href="#">В разработке</a>
+          <a href="#">В разработке</a>
+        </div>
+      </div>
+      <% if (user) { %>
+      <div class="dropdown">
+        <button class="dropbtn"><%= user.username %>
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="/favoriteRivers">Избранное</a>
+          <a href="/logout">Выйти</a>
+        </div>
+      </div>
+      <% } else { %>
+      <a href="/login">Войти</a>
+      <% } %>
+    </div>
+  </header>
