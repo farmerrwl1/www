@@ -19,8 +19,6 @@ app.use(session({
   saveUninitialized: true,
 }));
 
-const User = require('./models/User');
-
 // Функция для изменения роли пользователя с логином admin на admin
 async function updateAdminUserRole() {
   try {
