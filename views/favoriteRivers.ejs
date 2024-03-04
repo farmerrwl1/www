@@ -15,7 +15,7 @@
           <td><%= item.river.name %></td>
           <td><%= item.river.length %></td>
           <td class="actions">
-            <form action="/favoritess/remove" method="post">
+            <form action="/favorites/remove" method="post">
               <div class="action">
                 <input type="hidden" name="riverId" value="<%= item.river.id %>">
                 <button type="submit" style="color: red;">♥</button>
